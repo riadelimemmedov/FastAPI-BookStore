@@ -21,7 +21,6 @@ POSTGRES_PORT = config("POSTGRES_PORT", 5432)
 DATABASE_URL = "postgresql://{}:{}@{}:{}/{}".format(
     POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_HOST, POSTGRES_PORT, POSTGRES_DB
 )
-print("Database url is ", DATABASE_URL)
 database = databases.Database(DATABASE_URL)
 
 
@@ -35,10 +34,15 @@ books = sqlalchemy.Table(
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column("title", sqlalchemy.String),
     sqlalchemy.Column("author", sqlalchemy.String),
+    sqlalchemy.Column("pages", sqlalchemy.Integer),
 )
-# Create Postgress Engine
-engine = sqlalchemy.create_engine(DATABASE_URL)
-metadata.create_all(engine)
+
+
+# NOTE => If you have integrate Alembic to your project,don't need this code block create table on Database
+"""
+    engine = sqlalchemy.create_engine(DATABASE_URL)
+    metadata.create_all(engine)
+"""
 
 
 # Create FastApi Object and Define Api Endpoint
